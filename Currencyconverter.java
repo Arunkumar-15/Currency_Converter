@@ -1,42 +1,49 @@
 import java.util.HashMap;
-import java.util.*;
-public class Currencyconverter{
-	public static void main(String [] args)
-	{
-		HashMap<Integer,String> CurrencyCodes = new HashMap<>();
-		
-		CurrencyCodes.put(1,"USD");
-		CurrencyCodes.put(2,"CAD");
-		CurrencyCodes.put(3,"EUR");
-		CurrencyCodes.put(4,"HKD");
-		CurrencyCodes.put(5,"IND");
-		
-		String fromCode,toCode;
-		double amount;
-		
-		Scanner s = new Scanner(System.in);
-		System.out.print("Welcome to currency converter"); 
-		
-		System.out.println("Currencyconverting from ");
-		System.out.println("1: USD(dollar)\t 2: CAD(canadian dollar)\t 3: EUR(euro)\t 4: HKD(honkong dollar)\t 5: INR(rupee)");
-		fromCode = CurrencyCodes.get(s.nextInt());
-		
-		System.out.println("Currency converting to");
-		System.out.println("1: USD(dollar)\t 2: CAD(canadian dollar)\t 3: EUR(euro)\t 4: HKD(honkong dollar)\t 5: INR(rupee)");
-		toCode = CurrencyCodes.get(s.nextInt());
-		
-		System.out.println("Amount you wish to conver?");
-		amount = s.nextInt();
-		
-		//sendHttpGETrequest("fromCode,toCode,amount");
-		
-		
-		
-		}
-		/*
-		private static void sendHttpGETrequest(String fromCode, String toCode, double amount)throws IOException{
-			String GET_URL = 
-		}
-		*/
-	}
-	
+import java.util.Map;
+import java.util.Scanner;
+
+public class CurrencyConverter {
+
+    private static Map<String, Double> exchangeRates = new HashMap<>();
+    static {
+        exchangeRates.put("USD", 1.0);      
+        exchangeRates.put("EUR", 0.85);
+        exchangeRates.put("INR", 83.2);
+        exchangeRates.put("GBP", 0.75);
+        exchangeRates.put("JPY", 110.5);
+        exchangeRates.put("AUD", 1.5);
+        exchangeRates.put("CAD", 1.35);
+    }
+
+    public static double convertCurrency(String fromCurrency, String toCurrency, double amount) {
+        if (!exchangeRates.containsKey(fromCurrency) || !exchangeRates.containsKey(toCurrency)) {
+            throw new IllegalArgumentException("Currency code not supported.");
+        }
+
+        double amountInUSD = amount / exchangeRates.get(fromCurrency);
+        return amountInUSD * exchangeRates.get(toCurrency);            
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Available currencies: " + exchangeRates.keySet());
+        System.out.print("Enter source currency code: ");
+        String fromCurrency = scanner.nextLine().toUpperCase();
+
+        System.out.print("Enter target currency code: ");
+        String toCurrency = scanner.nextLine().toUpperCase();
+
+        System.out.print("Enter amount to convert: ");
+        double amount = scanner.nextDouble();
+
+        try {
+            double convertedAmount = convertCurrency(fromCurrency, toCurrency, amount);
+            System.out.printf("%.2f %s = %.2f %s%n", amount, fromCurrency, convertedAmount, toCurrency);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        scanner.close();
+    }
+}
