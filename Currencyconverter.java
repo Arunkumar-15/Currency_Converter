@@ -29,8 +29,7 @@ public class Currencyconverter{
 		amount = s.nextInt();
 		
 		//sendHttpGETrequest("fromCode,toCode,amount");
-		
-		
+	
 		
 		}
 		/*
