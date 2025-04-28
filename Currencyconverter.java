@@ -6,9 +6,9 @@ public class CurrencyConverter {
 
     private static Map<String, Double> exchangeRates = new HashMap<>();
 
-    // Initialize some sample exchange rates
+    
     static {
-        exchangeRates.put("USD", 1.0);       // Base currency USD
+        exchangeRates.put("USD", 1.0);       
         exchangeRates.put("EUR", 0.85);
         exchangeRates.put("INR", 83.2);
         exchangeRates.put("GBP", 0.75);
@@ -22,8 +22,8 @@ public class CurrencyConverter {
             throw new IllegalArgumentException("Currency code not supported.");
         }
 
-        double amountInUSD = amount / exchangeRates.get(fromCurrency); // Convert from source to USD
-        return amountInUSD * exchangeRates.get(toCurrency);            // Convert USD to target
+        double amountInUSD = amount / exchangeRates.get(fromCurrency); 
+        return amountInUSD * exchangeRates.get(toCurrency);           
     }
 
     public static void main(String[] args) {
